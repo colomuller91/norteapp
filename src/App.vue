@@ -7,7 +7,7 @@
             clipped
     >
       <br>
-      <v-toolbar-title class="text-center text-wrap ma-2" style="font-family: 'Kalimati'">Gracias por usar<br>Chimi-App</v-toolbar-title>
+      <v-toolbar-title class="text-center text-wrap ma-2" style="font-family: 'Kalimati'">Gracias por usar<br>NorteApp</v-toolbar-title>
       <br>
       <v-spacer/>
       <v-list dense>
@@ -52,14 +52,14 @@
             <v-list-item-title>¡CONSULTAS!</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link @click="clearDB" >
+        <!--<v-list-item link @click="clearDB" >
           <v-list-item-action >
             <v-icon color="red">mdi-bomb</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title >BORRAR DB</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item>-->
       </v-list>
     </v-navigation-drawer>
 
@@ -67,11 +67,12 @@
     <v-app-bar
             app
             clipped-left
+            color="#ead37a"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <p class="display-1 mb-0" style="font-family: 'Bangers' !important;">
-        <img :src="require('@/assets/logo-chimi-3.png')" style="height: 60px" />
+      <p class="display-1 mb-0" style=" margin-left: -48px">
+        <img :src="require('@/assets/logonorte.png')" style="height: 70px; vertical-align: sub" />
       </p>
       <v-spacer></v-spacer>
 

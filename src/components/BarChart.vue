@@ -18,6 +18,9 @@
                           type: 'bar',
                           height: 'auto'
                       },
+                      legend:{
+                          show:false
+                      },
                       plotOptions: {
                           bar: {
                               barHeight: '100%',

@@ -8,7 +8,7 @@
             raised>
 
       <v-img
-              :src="item.value.icon ? require(`../assets/icons/${item.value.icon}.png`) : require('../assets/logo.svg')"
+              :src="item.value.icon ? require(`../assets/icons/${item.value.icon}.png`) : require('../assets/icons/default.png')"
               contain
               :height="`${cardWidth/2}px`"/>
 

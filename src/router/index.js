@@ -33,7 +33,7 @@ Vue.use(VueRouter)
   {
     path: '/info',
     name: 'Información',
-    component: () => import('../components/ProductDetails.vue')
+    component: () => import('../components/Info.vue')
   },
 ]
 

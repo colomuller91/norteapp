@@ -16,6 +16,9 @@
                   chart: {
                       type: 'donut',
                   },
+                  legend:{
+                      show:false
+                  },
                   responsive: [{
                       breakpoint: 480,
                       options: {

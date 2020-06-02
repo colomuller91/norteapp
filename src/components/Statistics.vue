@@ -28,9 +28,15 @@
                 <p class="text-center display-1 pa-sm-5">Total ${{totalAmount}}</p>
             </v-col>
             <v-col cols="12" md="7" v-show="showCharts">
+                <p class="text-center">
+                    Montos acumulados en venta
+                </p>
                 <bar-chart ref="barchart"/>
             </v-col>
             <v-col cols="12" md="5" v-show="showCharts">
+                <p class="text-center">
+                    Cantidad de items vendidos
+                </p>
                 <donnut-chart ref="donnutchart"/>
             </v-col>
             <v-col cols="12" v-show="!showCharts">
