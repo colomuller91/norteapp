@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "start": "node server.js"
   },
   "dependencies": {
     "@mdi/font": "^3.6.95",
     "apexcharts": "^3.19.2",
     "core-js": "^3.6.4",
+    "express": "^4.17.1",
     "roboto-fontface": "*",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.3",
