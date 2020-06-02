@@ -1,34 +1,59 @@
 <template>
   <v-col :cols="sizes.cols" :sm="sizes.sm" :md="sizes.md" :lg="sizes.lg">
-    <v-card @click="$emit('clicked',{itemdata:item})"
-            class=""
-            style="box-sizing: border-box"
+    <v-card
+            class="d-flex flex-column "
+            style="box-sizing: border-box;"
             width="100%"
             height="100%"
             raised>
 
-      <v-img
-              :src="require('../assets/logo.svg')"
-              contain
-              :height="`${cardWidth/2}px`"/>
+      <div @click="$emit('clicked',{itemdata:item})">
+        <v-card-title class="d-block px-2 subtitle-1">
+          {{item.value.text}}
+        </v-card-title>
 
-      <v-card-title class="d-block pb-0 px-2 subtitle-1">
-        {{item.value.name}}
-      </v-card-title>
+        <v-card-text class="title font-weight-bold" v-if="!hideDescription">
+          $ {{totalAmount}}
+        </v-card-text>
 
-      <v-card-text class="pb-0" v-if="!hideDescription">
-        {{item.value.description}}
-      </v-card-text>
-
-      <v-card-subtitle class="pt-3">
-        ${{item.value.amount}}
-      </v-card-subtitle>
-
+        <v-card-subtitle class="py-0" v-for="product in grouped">
+          {{product.qty}} &#xd7; {{product.value.name}}
+        </v-card-subtitle>
+        <br>
+      </div>
+      <v-spacer></v-spacer>
+      <v-card-actions class="pa-0 d-flex" align="bottom">
+        <v-btn
+                tile
+                height="60px"
+                @click="finalizeOrder"
+                outlined
+                class="ma-0 flex-grow-1 subtitle-1"
+                style="border-color: dimgray; background-color: #eeeeee"
+                color="green">
+          VENDER
+        </v-btn>
+        <v-btn
+                tile
+                height="60px"
+                @click="deleteOrder"
+                class="ma-0 flex-grow-1 subtitle-1 border1"
+                style="border-color: dimgray; background-color: #EEEEEE"
+                outlined
+                color="red">
+          CANCELAR
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-col>
 </template>
 
 <script>
+
+  let orderEnt;
+  let salesEnt;
+
+  import {EntityIDB} from "../storage";
 
   export default {
     name:'ProductItem',
@@ -66,7 +91,41 @@
     computed:{
       sizes(){
         return this.itemSizes[this.sizeConfig];
+      },
+      grouped(){
+        let groupedItems = {};
+        this.item.value.items.forEach( x => {
+          if (groupedItems[x.key]) {
+            groupedItems[x.key].qty++;
+          }else{
+            groupedItems[x.key] = {value:x.value, qty:1}
+          }
+        });
+        return groupedItems
+      },
+      totalAmount(){
+        let total = 0;
+        this.item.value.items.forEach( x => {
+            total+= Number(x.value.amount)
+        });
+        return total
       }
+    },
+    methods:{
+      deleteOrder(){
+        const orderKey = this.item.key
+        orderEnt.removeItem(orderKey).then( () => this.$emit('orderEnded'));
+      },
+      finalizeOrder(){
+        let order = this.item;
+        order.value.done = true;
+        salesEnt.addItem({date: new Date, items: order.value.items});
+        orderEnt.updateItem(order.value,order.key).then( () => this.$emit('orderEnded'));
+      }
+    },
+    mounted() {
+      orderEnt = new EntityIDB('pedidos');
+      salesEnt = new EntityIDB('ventas');
     }
   }
 </script>

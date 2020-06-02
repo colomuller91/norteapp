@@ -1,29 +1,40 @@
 <template>
-    <apexcharts width="500" height="350" type="bar" :options="chartOptions" :series="series"></apexcharts>
+    <apexcharts type="donut" width="100%" :options="chartOptions" :series="series"></apexcharts>
 </template>
 
 <script>
   import VueApexCharts from 'vue-apexcharts'
 
   export default {
-          name: 'Chart',
+          name: 'DonnutChart',
           components: {
               apexcharts: VueApexCharts,
           },
-          data: function() {
-              return {
-                  chartOptions: {
-                      chart: {
-                          id: 'basic-bar'
-                      },
-                      xaxis: {
-                          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
-                      }
+          data: () => ({
+              series: [44, 55, 41, 17, 15],
+              chartOptions: {
+                  chart: {
+                      type: 'donut',
                   },
-                  series: [{
-                      name: 'series-1',
-                      data: [30, 40, 45, 50, 49, 60, 70, 91]
+                  responsive: [{
+                      breakpoint: 480,
+                      options: {
+                          chart: {
+                              width: 200
+                          },
+                          legend: {
+                              position: 'bottom'
+                          }
+                      }
                   }]
+              }
+          }),
+          methods:{
+              setData(fields,data){
+                  this.series = [...data];
+                  this.chartOptions = {
+                      labels: [...fields]
+                  }
               }
           }
   }

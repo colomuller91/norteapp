@@ -1,151 +1,180 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-card>
+        <v-card-title class="d-flex justify-space-between" :class="{'justify-space-around':borrar}">
+          <span class="headline" v-if="!borrar">Detalle de producto</span>
+          <template v-if="productId > 0">
+            <v-btn tile outlined color="red" v-if="!borrar" @click="borrar=true">BORRAR</v-btn>
+            <v-btn tile  color="red" class="white--text" v-if="borrar" @click="deleteProd">¿Estás seguro?</v-btn>
+          </template>
+        </v-card-title>
+        <v-card-text class="pb-0">
+          <v-container>
+            <v-row>
+              <v-col cols="2" md="2">
 
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
+                <v-img :src="require(`@/assets/icons/${product.icon}.png`)"
+                       @click="$refs.iconpicker.open()"
+                       v-if="product.icon"
+                       contain
+                       max-height="60px"/>
+                <v-btn @click="$refs.iconpicker.open()" v-else>Ícono</v-btn>
+              </v-col>
+              <v-col cols="10" md="6">
+                <v-text-field label="Nombre de producto" v-model="product.name"/>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                        prefix="$"
+                        label="Precio"
+                        v-model="product.amount"/>
+              </v-col>
+              <v-col cols="12" md="12">
+                <v-textarea
+                        rows="2"
+                        label="Descripción"
+                        hint="Descripción del producto"
+                        v-model="product.description"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-text class="pb-0">
+          <v-list>
+            <v-list-item dense v-for="errorItem in errorList"><p class="red--text text--darken-2 mb-0">{{errorItem}}</p></v-list-item>
+          </v-list>
+        </v-card-text>
 
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
-        </p>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ next.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
-      </v-col>
-    </v-row>
+        <v-card-actions class="pa-10 pt-5 justify-sm-space-between d-flex">
+          <v-btn
+                  color="red darken-1 white--text"
+                  style="height: 50px"
+                  tile
+                  outlined
+                  class="flex-grow-1 flex-sm-grow-0 title"
+                  @click="closeModal">
+            CERRAR
+          </v-btn>
+          <v-btn
+                  color="green darken-1 white--text"
+                  style="height: 50px"
+                  tile
+                  outlined
+                  class="flex-grow-1 flex-sm-grow-0 title"
+                  @click="saveProduct">
+            GUARDAR
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <ProductIconPicker ref="iconpicker" @iconselected="setIcon($event)"/>
   </v-container>
 </template>
 
 <script>
+  let productEnt;
+  import {EntityIDB} from '../storage'
+  import ProductIconPicker from "./ProductIconPicker";
   export default {
-    name: 'HelloWorld',
-
+    name: 'ProductDetails',
+    components:{
+      ProductIconPicker
+    },
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/layout/pre-defined',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
+      dialog:false,
+      productId:0,
+      product:{
+        name:'',
+        description:'',
+        amount:0.00,
+      },
+      errorList:[],
+      borrar:false
     }),
+    methods:{
+
+      open(itemdata){
+
+        this.dialog = true;
+        this.product = {...itemdata.value};
+        this.productId = itemdata.key || 0;
+
+      },
+
+      saveProduct(){
+
+        let productData = {...this.product};
+        productData = this.verifyData(productData)
+        if ( productData.hasError ){
+          this.errorList = productData.errors;
+          return
+        }
+        let operation;
+        if (this.productId === 0){
+          operation = productEnt.addItem(productData);
+        }else{
+          operation = productEnt.updateItem(productData,this.productId);
+        }
+        operation.then( () => { this.$emit('realized',{operation: this.productId === 0 ? 'creado' : 'modificado'}); this.closeModal()} );
+      },
+
+      verifyData(dataObj){
+
+        let errObj = {hasError:false, errors:[]};
+
+        if (isNaN(dataObj.amount)){
+          errObj.errors.push('El precio debe ser un número');
+          errObj.hasError = true
+        }else{
+          dataObj.amount = Number(dataObj.amount)
+        }
+
+        if (dataObj.name.trim() == ''){
+          errObj.errors.push('El nombre no puede ser vacío');
+          errObj.hasError = true
+        }
+
+        return errObj.hasError ? errObj : dataObj
+
+      },
+
+      closeModal(){
+        this.dialog = false;
+        this.borrar = false;
+        this.errorList = [];
+      },
+
+      deleteProd(){
+        this.borrar = false;
+        productEnt.removeItem(this.productId).then( () => {
+          this.dialog = false;
+          this.errorList = [];
+          this.$emit('deleted')
+        })
+      },
+
+      setIcon(icon){
+        console.log(icon)
+        this.product.icon = icon;
+      }
+
+    },
+    mounted(){
+      productEnt = new EntityIDB('productos');
+      productEnt._loaded.then( () => {
+          productEnt.getAllItems()
+                    .then( (res) => { this.items = res } )
+      })
+    },
+
+    watch:{
+      borrar(v){
+        if (v) {
+          setTimeout(() => { this.borrar = false}, 6000)
+        }
+      }
+    }
   }
 </script>

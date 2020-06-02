@@ -1,151 +1,99 @@
 <template>
-  <v-container>
+  <v-container fluid class="mb-10">
     <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
-
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
+        <v-col cols="12">
+            <p class="display-1">Productos disponibles</p>
+        </v-col>
+        <v-col cols="12" v-if="products_array.length>0">
+          <div class="d-flex flex-wrap justify-start">
+            <ProductItem v-for="product in products_array"
+                         :item="product"
+                         @clicked="openModal($event.itemdata)"/>
+          </div>
+        </v-col>
+        <v-col cols="12" v-else>
+            <br><br>
+            <p class="title">
+                Aún no creaste ningún producto en este dispositivo <v-icon>mdi-emoticon-sad-outline</v-icon>
+                <br><br>
+                <a class="headline font-weight-bold" @click="openModal({})">Crear producto!</a>
+            </p>
+        </v-col>
+      </v-row>
+      <v-btn
+              color="primary"
+              dark
+              big
+              right
+              fixed
+              bottom
+              rounded
+              fab
+              @click="openModal({})"
+              class=""
+      >
+          <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    <ProductDetails
+            ref="productModal"
+            @realized="operationDone($event.operation,false)"
+            @deleted="operationDone('',true)"/>
+    <v-snackbar
+            :timeout="3000"
+            :color="snackbarColor"
+            v-model="snackbar">
+        <p class="flex-grow-1 mb-0 text-center title">
+            {{snackbarText}}
         </p>
-      </v-col>
+    </v-snackbar>
 
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ next.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
 <script>
-  export default {
-    name: 'HelloWorld',
+  let productEnt;
+  import ProductItem from "./ProductItem";
+  import ProductDetails from "./ProductDetails";
+  import {EntityIDB} from '../storage'
 
+  export default {
+    name: 'ProductList',
+    components:{
+      ProductDetails,
+      ProductItem
+    },
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/layout/pre-defined',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
+      products_array:[],
+      productDetailsModal:false,
+      snackbar:false,
+      snackbarText:'',
+      snackbarColor:''
     }),
+    mounted() {
+      productEnt = new EntityIDB('productos');
+      productEnt._loaded.then( () => {
+        productEnt.getAllItems('name')
+                .then( (res) => { this.products_array = res } )
+      })
+    },
+    methods:{
+      openModal(productData){
+        this.$refs.productModal.open(productData);
+      },
+      operationDone(text,deleted = false){
+        if (!deleted){
+          this.snackbarText = `¡Producto ${text}!`
+          this.snackbarColor = 'primary'
+        }else{
+          this.snackbarText = '¡Producto eliminado!'
+          this.snackbarColor = 'error'
+        }
+        this.snackbar=true;
+        productEnt._loaded.then( () => {
+            productEnt.getAllItems('name')
+                      .then( (res) => { this.products_array = res } )
+        })
+      }
+    }
   }
 </script>
