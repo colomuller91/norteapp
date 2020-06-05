@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Sale from '@/components/Sale.vue'
+import Orders from '@/components/Orders.vue'
+import ProductList from '@/components/ProductList.vue'
+import Statistics from '@/components/Statistics.vue'
+import Info from '@/components/Info.vue'
 
 Vue.use(VueRouter)
 
@@ -12,28 +16,27 @@ Vue.use(VueRouter)
   {
     path: '/venta',
     name: 'Venta',
-    component: () => import('../components/Venta.vue')
+    component: Sale
   },
   {
     path: '/pedidos',
     name: 'Pedidos',
-    component: () => import('../components/Pedidos.vue')
+    component: Orders
   },
   {
     path: '/productos',
     name: 'Productos',
-    component: () => import('../components/ProductList.vue')
+    component: ProductList
   },
   {
     path: '/resumen',
     name: 'Resumen',
-    // redirect: '/',
-    component: () => import('../components/Statistics.vue')
+    component: Statistics
   },
   {
     path: '/info',
     name: 'Información',
-    component: () => import('../components/Info.vue')
+    component: Info
   },
 ]
 

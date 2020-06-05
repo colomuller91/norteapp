@@ -98,7 +98,6 @@
                                 <div class="d-flex flex-wrap justify-start overflow-y-auto">
                                     <ProductItem v-for="product in products_array"
                                                  :item="product"
-                                                 size-config="big"
                                                  @clicked="$store.dispatch('addItem',{entidad:'pedido',item:$event.itemdata})" />
                                 </div>
                             </v-col>
@@ -114,7 +113,10 @@
                                         <v-card-text >
                                             <p class="title text--primary mb-0 d-flex" >
                                                 <span class="pr-5">{{item.qty}} x</span>
-                                                <span class="grow text-left">{{item.value.name}}</span>
+                                                <span class="flex-grow-1 overflow-hidden subtitle-1 mt-1 align-self-center text-left"
+                                                      style="text-overflow: ellipsis; white-space: nowrap">
+                                                    {{item.value.name}}
+                                                </span>
                                                 <span>$ {{item.value.amount * item.qty}}</span>
                                             </p>
                                         </v-card-text>
@@ -188,13 +190,16 @@
                 }else{
                     operation = orderEnt.addItem({date:new Date, done:0, ...this.$store.state.pedido});
                 }
-                operation.then( () => { this.$emit('realized',{operation: this.orderId === 0 ? 'Creación' : 'Modificación'}); this.dialog=false} );
+                operation.then( () => { this.$emit('realized',{operation: this.orderId === 0 ? 'Pedido creado!' : 'Pedido modificado!'}); this.dialog=false} );
             },
             finalizeOrder(){
                 let order = this.$store.state.pedido;
                 order.done = 1;
                 salesEnt.addItem({date: new Date, items: order.items});
-                orderEnt.updateItem(order,order.key).then( () => {this.$emit('orderEnded'); this.dialog = false});
+                orderEnt.updateItem(order,order.key).then( () => {
+                    this.$emit('realized',{operation: `Vendiste por: $${this.$store.getters.totalOrderAmount}`});
+                    this.closeModalPedido();
+                });
             },
             closeModalPedido(){
                 this.dialog = false;

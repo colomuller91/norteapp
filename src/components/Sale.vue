@@ -116,7 +116,10 @@
                                 <v-card-text >
                                     <p class="title text--primary mb-0 d-flex">
                                         <span class="pr-2 text-no-wrap">{{item.qty}} x</span>
-                                        <span class="flex-grow-1 overflow-hidden subtitle-1 mt-1 align-self-center text-left" style="text-overflow: ellipsis">{{item.value.name}}</span>
+                                        <span class="flex-grow-1 overflow-hidden subtitle-1 mt-1 align-self-center text-left"
+                                              style="text-overflow: ellipsis; white-space: nowrap">
+                                            {{item.value.name}}
+                                        </span>
                                         <span class="text-no-wrap">$ {{item.value.amount * item.qty}}</span>
                                     </p>
                                 </v-card-text>

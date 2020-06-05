@@ -12,15 +12,15 @@
               contain
               :height="`${cardWidth/2}px`"/>
 
-      <v-card-title class="d-block pb-0 px-2 subtitle-1">
+      <v-card-title class="d-block pb-0 px-2 subtitle-1 text-center" style="word-break: unset">
         {{item.value.name}}
       </v-card-title>
 
-      <v-card-text class="pb-0" v-if="!hideDescription">
+      <v-card-text class="pb-0 text-center" v-if="!hideDescription">
         {{item.value.description}}
       </v-card-text>
 
-      <v-card-subtitle class="pt-3">
+      <v-card-subtitle class="pt-3 text-center">
         ${{item.value.amount}}
       </v-card-subtitle>
 
@@ -58,7 +58,7 @@
         normal: {
           cols: 6,
           sm: 4,
-          md: 3,
+          md: 4,
           lg: 3
         }
       }

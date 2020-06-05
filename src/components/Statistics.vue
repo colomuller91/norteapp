@@ -31,13 +31,41 @@
                 <p class="text-center">
                     Montos acumulados en venta
                 </p>
-                <bar-chart ref="barchart"/>
+                <bar-chart class="mt-md-8" ref="barchart"/>
             </v-col>
             <v-col cols="12" md="5" v-show="showCharts">
                 <p class="text-center">
                     Cantidad de items vendidos
                 </p>
-                <donnut-chart ref="donnutchart"/>
+                <v-tabs v-model="tabsDonnut" fixed-tabs>
+                    <v-tab>Texto</v-tab>
+                    <v-tab>Gráfico</v-tab>
+                </v-tabs>
+                <v-tabs-items v-model="tabsDonnut">
+                    <v-tab-item>
+                        <v-data-table
+                                :headers="dataTableHeaders"
+                                :items="qtyData"
+                                disable-sort
+                                hide-default-footer
+                                item-key="name"
+                                class="elevation-1"
+                        >
+                            <template v-slot:body="{ items }">
+                                <tbody>
+                                <tr v-for="item in items" :key="item.name">
+                                    <td>{{ item.name }}</td>
+                                    <td align="end">{{ item.qty}}</td>
+                                </tr>
+                                </tbody>
+                            </template>
+                        </v-data-table>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <donnut-chart ref="donnutchart"/>
+                    </v-tab-item>
+                </v-tabs-items>
+
             </v-col>
             <v-col cols="12" v-show="!showCharts">
                 <p class="text-center"> No hay datos para mostrar en esta fecha</p>
@@ -62,7 +90,13 @@
         datepicker:false,
         date: new Date((new Date).getTime() - ((new Date).getTimezoneOffset() * 60000)).toISOString().substr(0,10),
         totalAmount:0,
-        showCharts:false
+        showCharts:false,
+        tabsDonnut:0,
+        qtyData:[],
+        dataTableHeaders:[
+            {text:'Producto', value:'name', align:'start'},
+            {text:'Cantidad', value:'qty', align:'end'},
+        ]
     }),
     computed: {
       computedDateFormatted () {
@@ -130,9 +164,11 @@
                   this.showCharts = sellings.length > 0;
 
                   const totalSorted = [...sellings].sort( (a,b) => {return b.total - a.total});
-                  const qtySorted = [...sellings].sort( (a,b) => {return b.qty - a.qty});
                   this.$refs.barchart.setData(totalSorted.map( x => x.name), totalSorted.map(x => x.total));
-                  this.$refs.donnutchart.setData(qtySorted.map( x => x.name), qtySorted.map(x => x.qty));
+
+                  const qtySorted = [...sellings].sort( (a,b) => {return b.qty - a.qty});
+                  this.qtyData = qtySorted;
+                  if (this.$refs.donnutchart) {this.$refs.donnutchart.setData(qtySorted.map( x => x.name), qtySorted.map(x => x.qty))};
 
               })
 

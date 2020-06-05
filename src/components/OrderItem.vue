@@ -8,7 +8,7 @@
             raised>
 
       <div @click="$emit('clicked',{itemdata:item})">
-        <v-card-title class="d-block px-2 subtitle-1">
+        <v-card-title class="d-block px-2 subtitle-1 text-center">
           {{item.value.text}}
         </v-card-title>
 
@@ -114,13 +114,14 @@
     methods:{
       deleteOrder(){
         const orderKey = this.item.key
-        orderEnt.removeItem(orderKey).then( () => this.$emit('orderEnded'));
+        orderEnt.removeItem(orderKey).then( () => this.$emit('orderEnded',{operation: 'Pedido cancelado!'} ) );
+
       },
       finalizeOrder(){
         let order = this.item;
         order.value.done = true;
         salesEnt.addItem({date: new Date, items: order.value.items});
-        orderEnt.updateItem(order.value,order.key).then( () => this.$emit('orderEnded'));
+        orderEnt.updateItem(order.value,order.key).then( () => this.$emit('orderEnded',{operation: `VENDISTE POR $${this.totalAmount}` } ) );
       }
     },
     mounted() {

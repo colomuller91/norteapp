@@ -12,14 +12,12 @@
         <v-card-text class="pb-0">
           <v-container>
             <v-row>
-              <v-col cols="2" md="2">
-
-                <v-img :src="require(`@/assets/icons/${product.icon}.png`)"
+              <v-col cols="2" md="2" style="border: 1px solid black; border-radius: 10px" class="align-self-center">
+                <v-img :src="product.icon ? require(`@/assets/icons/${product.icon}.png`) : require(`@/assets/icons/default.png`)"
                        @click="$refs.iconpicker.open()"
-                       v-if="product.icon"
                        contain
                        max-height="60px"/>
-                <v-btn @click="$refs.iconpicker.open()" v-else>Ícono</v-btn>
+
               </v-col>
               <v-col cols="10" md="6">
                 <v-text-field label="Nombre de producto" v-model="product.name"/>
@@ -89,6 +87,7 @@
         name:'',
         description:'',
         amount:0.00,
+        icon:''
       },
       errorList:[],
       borrar:false
@@ -98,8 +97,18 @@
       open(itemdata){
 
         this.dialog = true;
-        this.product = {...itemdata.value};
-        this.productId = itemdata.key || 0;
+        if (Object.keys(itemdata).length > 0){
+          this.product = {...itemdata.value};
+          this.productId = itemdata.key;
+        }else{
+          this.product = {
+            name:'',
+            description:'',
+            amount:0.00,
+            icon:''
+          }
+          this.productId = 0;
+        }
 
       },
 

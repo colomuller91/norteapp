@@ -9,16 +9,16 @@
             <OrderItem v-for="order in orders_array"
                          size-config="big"
                          :item="order"
-                         @orderEnded="loadOrders"
+                         @orderEnded="operationDone($event.operation)"
                          @clicked="openModal($event.itemdata)"/>
           </div>
         </v-col>
         <v-col cols="12" v-else>
             <br><br>
             <p class="title">
-                ¯\_(ツ)_/¯
+                No tenés ningún pedido activo.
                 <br><br>
-                Aún no creaste ningún PEDIDO en este dispositivo
+                <p class="display-1 ">¯\_(ツ)_/¯</p>
             </p>
         </v-col>
       </v-row>
@@ -38,7 +38,11 @@
           <v-icon>mdi-plus</v-icon>
       </v-btn>
     <ModalPedido ref="modalPedido" @realized="operationDone($event.operation)" @orderEnded="loadOrders"></ModalPedido>
-    <v-snackbar :timeout="4000" color="primary" v-model="snackbar">{{textOperation}}</v-snackbar>
+    <v-snackbar :timeout="3000" color="primary" v-model="snackbar">
+      <p class="text-center flex-grow-1 mb-0 title">
+          {{snackbarText}}
+      </p>
+    </v-snackbar>
 
   </v-container>
 </template>
@@ -47,7 +51,7 @@
   let ordersEnt;
   let productsEnt;
   import OrderItem from "./OrderItem";
-  import ModalPedido from "./ModalPedido";
+  import ModalPedido from "./OrderModal";
   import {EntityIDB} from '../storage'
 
   export default {
@@ -82,13 +86,8 @@
       loadOrders(){
           ordersEnt._loaded.then( () => {
               ordersEnt.getFilteredItems('done',{filter:'only', value:0})
-                  .then( (res) => { console.log(res); this.orders_array = res } )
+                  .then( (res) => { this.orders_array = res } )
           })
-      }
-    },
-    computed:{
-      textOperation(){
-        return `${this.snackbarText} realizada!`
       }
     }
   }

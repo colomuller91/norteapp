@@ -11,55 +11,14 @@
       <br>
       <v-spacer/>
       <v-list dense>
-        <v-list-item link to="/productos">
+        <v-list-item v-for="section in drawerItems" link :to="section.path">
           <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
+            <v-icon>{{section.icon}}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Productos</v-list-item-title>
+            <v-list-item-title>{{section.title}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to="/pedidos">
-          <v-list-item-action>
-            <v-icon>mdi-format-list-checks</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Pedidos</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link to="/venta">
-          <v-list-item-action>
-            <v-icon>mdi-cart-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Venta imediata</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link to="/resumen">
-          <v-list-item-action>
-            <v-icon>mdi-chart-bar</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Reporte diario</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-spacer></v-spacer>
-        <v-list-item link to="/info">
-          <v-list-item-action>
-            <v-icon>mdi-message-text-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>¡CONSULTAS!</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <!--<v-list-item link @click="clearDB" >
-          <v-list-item-action >
-            <v-icon color="red">mdi-bomb</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title >BORRAR DB</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>-->
       </v-list>
     </v-navigation-drawer>
 
@@ -108,6 +67,33 @@ export default {
   },
   data: () => ({
     drawer: null,
+    drawerItems:[
+      {
+        title:'Productos',
+        path:'/productos',
+        icon:'mdi-view-dashboard'
+      },
+      {
+        title:'Pedidos',
+        path:'/pedidos',
+        icon:'mdi-format-list-checks'
+      },
+      {
+        title:'Venta inmediata',
+        path:'/venta',
+        icon:'mdi-cart-outline'
+      },
+      {
+        title:'Reporte diario',
+        path:'/resumen',
+        icon:'mdi-chart-bar'
+      },
+      {
+        title:'¡INFORMACIÓN!',
+        path:'/info',
+        icon:'mdi-message-text-outline'
+      },
+    ]
   }),
   created () {
     this.$vuetify.theme.dark = false

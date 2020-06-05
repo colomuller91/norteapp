@@ -1,5 +1,5 @@
 <template>
-    <apexcharts type="donut" width="100%" :options="chartOptions" :series="series"></apexcharts>
+    <apexcharts type="donut" width="100%" class="mx-auto" style="max-width: 400px" :options="chartOptions" :series="series"></apexcharts>
 </template>
 
 <script>
@@ -19,17 +19,7 @@
                   legend:{
                       show:false
                   },
-                  responsive: [{
-                      breakpoint: 480,
-                      options: {
-                          chart: {
-                              width: 200
-                          },
-                          legend: {
-                              position: 'bottom'
-                          }
-                      }
-                  }]
+
               }
           }),
           methods:{
