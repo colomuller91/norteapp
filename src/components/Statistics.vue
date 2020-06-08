@@ -61,7 +61,7 @@
                             </template>
                         </v-data-table>
                     </v-tab-item>
-                    <v-tab-item>
+                    <v-tab-item eager>
                         <donnut-chart ref="donnutchart"/>
                     </v-tab-item>
                 </v-tabs-items>
@@ -164,12 +164,17 @@
                   this.showCharts = sellings.length > 0;
 
                   const totalSorted = [...sellings].sort( (a,b) => {return b.total - a.total});
-                  this.$refs.barchart.setData(totalSorted.map( x => x.name), totalSorted.map(x => x.total));
+                  if (this.$refs.barchart) {
+                      this.$refs.barchart.setData(totalSorted.map( x => x.name), totalSorted.map(x => x.total))
+                  };
+
 
                   const qtySorted = [...sellings].sort( (a,b) => {return b.qty - a.qty});
-                  this.qtyData = qtySorted;
-                  if (this.$refs.donnutchart) {this.$refs.donnutchart.setData(qtySorted.map( x => x.name), qtySorted.map(x => x.qty))};
+                  if (this.$refs.donnutchart) {
+                      this.$refs.donnutchart.setData(qtySorted.map( x => x.name), qtySorted.map(x => x.qty))
+                  };
 
+                  this.qtyData = qtySorted;
               })
 
       },
@@ -179,7 +184,6 @@
           return amount;
       }
     },
-
     mounted() {
       salesEnt = new EntityIDB('ventas');
       salesEnt._loaded.then( () => {

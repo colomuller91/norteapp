@@ -1,5 +1,7 @@
 <template>
-    <apexcharts type="donut" width="100%" class="mx-auto" style="max-width: 400px" :options="chartOptions" :series="series"></apexcharts>
+    <div id="chart">
+        <apexcharts type="donut" width="100%" class="mx-auto" style="max-width: 400px" :options="chartOptions" :series="series"></apexcharts>
+    </div>
 </template>
 
 <script>
@@ -11,7 +13,6 @@
               apexcharts: VueApexCharts,
           },
           data: () => ({
-              series: [44, 55, 41, 17, 15],
               chartOptions: {
                   chart: {
                       type: 'donut',
@@ -20,7 +21,8 @@
                       show:false
                   },
 
-              }
+              },
+              series: [],
           }),
           methods:{
               setData(fields,data){
