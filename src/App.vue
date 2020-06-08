@@ -88,6 +88,11 @@ export default {
         path:'/resumen',
         icon:'mdi-chart-bar'
       },
+/*      {
+        title:'Mis datos',
+        path:'/misdatos',
+        icon:'mdi-chart-bar'
+      },*/
       {
         title:'¡INFORMACIÓN!',
         path:'/info',

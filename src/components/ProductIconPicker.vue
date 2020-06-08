@@ -29,7 +29,12 @@
         'empanada',
         'food',
         'pizza',
-        'sandwich'
+        'sandwich',
+        'basket',
+        'chinstrap',
+        'heartpillow',
+        'moonpillow',
+        'pillow',
       ]
     }),
     methods:{

@@ -18,7 +18,7 @@
             <p class="title">
                 No tenés ningún pedido activo.
                 <br><br>
-                <p class="display-1 ">¯\_(ツ)_/¯</p>
+                <span class="display-1 ">¯\_(ツ)_/¯</span>
             </p>
         </v-col>
       </v-row>

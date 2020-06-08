@@ -129,6 +129,15 @@
                 </v-row>
             </v-col>
         </template>
+        <template v-else>
+            <v-col cols="12">
+                <br><br>
+                <p class="title">
+                    Todavía no tenés productos para vender.
+                </p>
+                <router-link to="productos" class="headline font-weight-bold" tag="a">Ir a productos</router-link>
+            </v-col>
+        </template>
     </v-row>
     <v-snackbar
             :timeout="5000"
