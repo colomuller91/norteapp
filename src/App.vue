@@ -31,7 +31,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <p class="display-1 mb-0" style=" margin-left: -48px">
-        <img :src="require('@/assets/logonorte.png')" style="height: 70px; vertical-align: sub" />
+        <img :src="require('@/assets/logonortecom.png')" style="height: 70px; margin-top:4px; vertical-align: sub" />
       </p>
       <v-spacer></v-spacer>
 
