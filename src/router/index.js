@@ -5,6 +5,7 @@ import Orders from '@/components/Orders.vue'
 import ProductList from '@/components/ProductList.vue'
 import Statistics from '@/components/Statistics.vue'
 import Info from '@/components/Info.vue'
+import UserDataResume from '@/components/UserDataResume.vue';
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,11 @@ Vue.use(VueRouter)
     path: '/resumen',
     name: 'Resumen',
     component: Statistics
+  },
+  {
+    path: '/misdatos',
+    name: 'Mis datos',
+    component: UserDataResume
   },
   {
     path: '/info',

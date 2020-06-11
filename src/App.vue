@@ -37,16 +37,9 @@
 
     </v-app-bar>
 
-
-
-
-
     <v-content>
       <router-view></router-view>
-
     </v-content>
-
-
 
   </v-app>
 
@@ -88,11 +81,11 @@ export default {
         path:'/resumen',
         icon:'mdi-chart-bar'
       },
-/*      {
+      {
         title:'Mis datos',
         path:'/misdatos',
-        icon:'mdi-chart-bar'
-      },*/
+        icon:'mdi-database'
+      },
       {
         title:'¡INFORMACIÓN!',
         path:'/info',
