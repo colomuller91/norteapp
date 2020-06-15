@@ -24,7 +24,7 @@
                                 @click=""
                         >
                             <v-list-item-title v-text="sale.date"></v-list-item-title>
-                            <v-list-item-action style="white-space: nowrap;">
+                            <v-list-item-action style="white-space: nowrap; ">
                                 $ {{sale.total}}.00
                             </v-list-item-action>
                         </v-list-item>
