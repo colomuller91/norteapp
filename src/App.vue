@@ -99,6 +99,9 @@ export default {
   methods:{
     clearDB(){
       window.indexedDB.deleteDatabase('chimi')
+    },
+    track(){
+      this.$ga.page('/')
     }
   }
 

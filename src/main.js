@@ -8,7 +8,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import VueAnalytics from 'vue-analytics'
 
 Vue.use(VueAnalytics, {
-  id: 'UA-169023181-1'
+  id: 'UA-169023181-1' 
 })
 
 Vue.config.productionTip = false
