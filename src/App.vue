@@ -73,12 +73,8 @@ export default {
     }
   },
   mounted() {
-    console.time('mounted');
-    console.log('mounted')
     document.onreadystatechange = () => {
       if (document.readyState == "complete") {
-        console.timeEnd('mounted')
-        console.log('app loaded')
         setTimeout(() => this.loading=false, 1000)
         // run code here
       }
