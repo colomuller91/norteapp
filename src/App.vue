@@ -1,45 +1,10 @@
 <template>
   <v-app>
+    <transition name="fade">
+      <preloader v-if="loading"/>
+    </transition>
 
-    <v-navigation-drawer
-            v-model="drawer"
-            app
-            clipped
-    >
-      <br>
-      <v-toolbar-title class="text-center text-wrap ma-2" style="font-family: 'Kalimati'">Gracias por usar<br>NorteApp</v-toolbar-title>
-      <br>
-      <v-spacer/>
-      <v-list dense>
-        <v-list-item v-for="section in drawerItems" link :to="section.path">
-          <v-list-item-action>
-            <v-icon>{{section.icon}}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{section.title}}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-
-    <v-app-bar
-            app
-            clipped-left
-            color="#ead37a"
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-spacer></v-spacer>
-      <p class="display-1 mb-0" style=" margin-left: -48px">
-        <img :src="require('@/assets/logonortecom.png')" style="height: 70px; margin-top:4px; vertical-align: sub" />
-      </p>
-      <v-spacer></v-spacer>
-
-    </v-app-bar>
-
-    <v-content>
-      <router-view></router-view>
-    </v-content>
+    <app-container/>
 
   </v-app>
 
@@ -47,12 +12,14 @@
 
 <script>
 
-import productList from './components/ProductList';
+import Preloader from "./components/Preloader";
+const AppContainer = () => import ("./AppContainer");
 
 export default {
   name: 'App',
   components: {
-    productList,
+    AppContainer,
+    Preloader,
   },
 
   props: {
@@ -60,6 +27,7 @@ export default {
   },
   data: () => ({
     drawer: null,
+    loading:true,
     drawerItems:[
       {
         title:'Productos',
@@ -103,6 +71,18 @@ export default {
     track(){
       this.$ga.page('/')
     }
+  },
+  mounted() {
+    console.time('mounted');
+    console.log('mounted')
+    document.onreadystatechange = () => {
+      if (document.readyState == "complete") {
+        console.timeEnd('mounted')
+        console.log('app loaded')
+        setTimeout(() => this.loading=false, 1000)
+        // run code here
+      }
+    }
   }
 
 };
@@ -110,5 +90,12 @@ export default {
 <style>
   .v-toolbar__content{
     height: 100px;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to{
+    opacity: 0;
   }
 </style>

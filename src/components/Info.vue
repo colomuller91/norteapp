@@ -1,9 +1,9 @@
 <template>
-    <v-container fluid onresize="onresize" class="pa-sm-0 py-md-0 px-md-2 fill-height">
+    <v-container fluid onresize="onresize" class="pa-sm-1 pt-md-5 px-md-2 fill-height">
         <v-row no-gutters>
             <v-col cols="12" md="6" offset-md="3" class="pa-4 pt-1">
                 <p class="display-1 font-weight-bold">
-                    NorteApp v0.2
+                    NorteApp v0.3
                 </p>
                 <br>
                 <p>
@@ -13,7 +13,14 @@
                     Está orientada a los pequeños emprendimientos para brindar una manera FÁCIL y RÁPIDA de gestionar tu actividad.
                 </p>
                 <p>
-                    NorteApp es una iniciativa <br><b>OPEN-SOURCE</b> y <b>GRATUITA</b>.
+                    NorteApp es una iniciativa <br>
+                    <v-hover v-slot:default="{ hover }">
+                        <span>
+                            <v-icon class="title ml-n6 black--text" style="vertical-align: sub" :style="hover? 'opacity:1' : 'opacity:0'">mdi-github-circle</v-icon>&nbsp;
+                            <a class="li-link font-weight-bold black--text" href="https://www.github.com/colomuller91/norteapp" tag="a">OPEN-SOURCE</a>
+                        </span>
+                    </v-hover>
+                    y <b>GRATUITA</b>.
                 </p>
                 <br><br>
                 <p>¿Necesitás ayuda para usarla?</p>

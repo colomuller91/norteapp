@@ -1,19 +1,11 @@
-# chimi
+# NorteApp
 
-## Project setup
-```
-npm install
-```
+## Overview
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Es un proyecto open-source para la autogestión del emprendedor, con esta app podés gestionar ventas y pedidos de forma ágil y sencilla.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Live demo in https://www.norteapp.com
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Contacto:
+```
+colomuller91@gmail.com
